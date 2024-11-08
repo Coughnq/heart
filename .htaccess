@@ -1,0 +1,3 @@
+RewriteEngine On
+RewriteBase /
+RewriteRule ^thoughts/[0-9]+-.*$ /thoughts.html [L] 
