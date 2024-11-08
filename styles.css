@@ -1099,3 +1099,139 @@ h1, h2, h3, h4, h5, h6 {
         transform: translate(-50%, 0);
     }
 }
+
+/* Mobile-first media queries */
+@media screen and (max-width: 768px) {
+    /* Navigation */
+    .navbar {
+        flex-direction: column;
+        padding: 1rem;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        width: 100%;
+        text-align: center;
+        margin-top: 1rem;
+    }
+
+    .nav-links li {
+        margin: 0.5rem 0;
+    }
+
+    .logo-img, .center-img {
+        max-width: 150px;
+    }
+
+    /* Main content */
+    main {
+        padding: 1rem;
+    }
+
+    /* Adjust margins for legal pages */
+    [style*="margin-left: 20rem"], 
+    [style*="margin-right: 20rem"] {
+        margin-left: 1rem !important;
+        margin-right: 1rem !important;
+    }
+
+    /* Footer */
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        text-align: center;
+    }
+
+    .footer-section {
+        align-items: center;
+    }
+
+    /* Modal */
+    .modal-content {
+        width: 90%;
+        margin: 20% auto;
+        padding: 1rem;
+    }
+
+    /* Thoughts grid */
+    .thoughts-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding: 1rem;
+    }
+
+    /* Share options */
+    .share-options {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .share-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .share-button {
+        width: 100%;
+        margin: 0.5rem 0;
+    }
+}
+
+/* Tablet adjustments */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    [style*="margin-left: 20rem"], 
+    [style*="margin-right: 20rem"] {
+        margin-left: 5rem !important;
+        margin-right: 5rem !important;
+    }
+
+    .thoughts-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.legal-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.legal-section {
+    margin: 2rem auto;
+    max-width: 800px;
+}
+
+.legal-title {
+    text-align: center;
+    margin: 2rem 0;
+}
+
+/* Responsive tables if you have any */
+.responsive-table {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Improve touch targets */
+button, 
+.nav-links a, 
+.footer a {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 0.5rem 1rem;
+}
+
+/* Prevent horizontal scrolling */
+html, body {
+    overflow-x: hidden;
+    width: 100%;
+}
+
+/* Improve form elements on mobile */
+input, 
+textarea, 
+select {
+    font-size: 16px; /* Prevents iOS zoom on focus */
+    max-width: 100%;
+    padding: 0.5rem;
+}

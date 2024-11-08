@@ -270,6 +270,9 @@ class ThoughtsManager {
         
         // Update hash when opening modal
         window.location.hash = `thought-${thought.id}`;
+        
+        // Update metadata when opening a specific thought
+        this.updateMetaTags(thought);
     }
 
     createThoughtUrl(thought) {
@@ -334,11 +337,88 @@ class ThoughtsManager {
             const thought = this.thoughts.find(t => t.id === thoughtId);
             
             if (thought) {
-                this.openModal(thought);
+                this.updateMetaTags(thought);
+            } else {
+                // Reset to default metadata
+                this.resetMetaTags();
             }
         } else if (this.modal) {
             this.modal.style.display = 'none';
         }
+    }
+
+    resetMetaTags() {
+        // Reset to default values when no specific thought is shown
+        document.title = "Browse Thoughts - Heart | Anonymous Expression Platform";
+        // ... reset other meta tags to defaults ...
+    }
+
+    updateMetaTags(thought) {
+        // Update title
+        document.title = `${thought.content.slice(0, 50)}... - Heart`;
+        
+        // Update meta description
+        document.querySelector('meta[name="description"]').setAttribute(
+            'content', 
+            `"${thought.content.slice(0, 150)}..." - Shared on Heart`
+        );
+        
+        // Update OpenGraph
+        document.querySelector('meta[property="og:title"]').setAttribute(
+            'content',
+            `Shared Thought - Heart`
+        );
+        document.querySelector('meta[property="og:description"]').setAttribute(
+            'content',
+            thought.content
+        );
+        document.querySelector('meta[property="og:url"]').setAttribute(
+            'content',
+            this.createThoughtUrl(thought)
+        );
+        
+        // Update Twitter Cards
+        document.querySelector('meta[property="twitter:title"]').setAttribute(
+            'content',
+            `Shared Thought - Heart`
+        );
+        document.querySelector('meta[property="twitter:description"]').setAttribute(
+            'content',
+            thought.content
+        );
+        document.querySelector('meta[property="twitter:url"]').setAttribute(
+            'content',
+            this.createThoughtUrl(thought)
+        );
+        
+        // Update canonical URL
+        const canonicalLink = document.querySelector('link[rel="canonical"]');
+        if (canonicalLink) {
+            canonicalLink.setAttribute('href', this.createThoughtUrl(thought));
+        }
+        
+        // Update JSON-LD
+        const thoughtSchema = {
+            "@context": "https://schema.org",
+            "@type": "SocialMediaPosting",
+            "headline": "Shared Thought on Heart",
+            "articleBody": thought.content,
+            "datePublished": thought.date,
+            "publisher": {
+                "@type": "Organization",
+                "name": "Heart.Intelliquinte",
+                "url": "https://heart.intelliquinte.com"
+            }
+        };
+        
+        let scriptTag = document.querySelector('#thoughtSchema');
+        if (!scriptTag) {
+            scriptTag = document.createElement('script');
+            scriptTag.id = 'thoughtSchema';
+            scriptTag.type = 'application/ld+json';
+            document.head.appendChild(scriptTag);
+        }
+        scriptTag.textContent = JSON.stringify(thoughtSchema);
     }
 }
 
