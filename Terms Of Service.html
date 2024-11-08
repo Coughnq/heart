@@ -10,24 +10,34 @@
 </head>
 <body>
     <nav class="navbar">
-        <div class="logo">
-            <a href="index.html">
-                <img src="Intelliquinte Logo TM.PNG" alt="Intelliquinte Logo" class="logo-img" loading="lazy">
-            </a>
-        </div>
-        
-        <div class="center-image">
-            <a href="index.html">
-                <img src="Heart Logo PNG.PNG" alt="Heart Logo" class="center-img" loading="lazy">
-            </a>
-        </div>
+        <div class="nav-container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="Intelliquinte Logo TM.PNG" alt="Intelliquinte Logo" class="logo-img" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="center-image">
+                <a href="index.html">
+                    <img src="Heart Logo PNG.PNG" alt="Heart Logo" class="center-img" loading="lazy">
+                </a>
+            </div>
 
-        <ul class="nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="submit.html">Form</a></li>
-            <li><a href="thoughts.html">Thoughts</a></li>
-            <li><a href="about.html">About</a></li>
-        </ul>
+            <div class="nav-menu">
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="submit.html">Form</a></li>
+                    <li><a href="thoughts.html">Thoughts</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+            </div>
+
+            <button class="hamburger" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
     </nav>
     <main>
         <h1 style="text-align: center; margin-top: 2rem;">Terms of Service</h1>
@@ -205,4 +215,62 @@
             </div>
         </div>
     </footer>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+        
+        if (hamburger && navMenu) {
+            let isMenuOpen = false; // Track menu state
+
+            hamburger.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                // Toggle menu state
+                isMenuOpen = !isMenuOpen;
+                
+                // Apply classes based on state
+                if (isMenuOpen) {
+                    this.classList.add('active');
+                    navMenu.classList.add('active');
+                } else {
+                    this.classList.remove('active');
+                    navMenu.classList.remove('active');
+                }
+                
+                // Debug information
+                console.log('Hamburger clicked');
+                console.log('Menu is now:', isMenuOpen ? 'open' : 'closed');
+                console.log('Hamburger active:', this.classList.contains('active'));
+                console.log('Nav menu active:', navMenu.classList.contains('active'));
+                console.log('Nav menu display:', window.getComputedStyle(navMenu).display);
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+                    isMenuOpen = false;
+                    hamburger.classList.remove('active');
+                    navMenu.classList.remove('active');
+                }
+            });
+
+            // Close menu when clicking a link
+            navMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    isMenuOpen = false;
+                    hamburger.classList.remove('active');
+                    navMenu.classList.remove('active');
+                });
+            });
+        } else {
+            console.error('Hamburger or nav menu not found:', {
+                hamburger: hamburger,
+                navMenu: navMenu
+            });
+        }
+    });
+    </script>
+</body>
 </html>

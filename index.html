@@ -1,53 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Essential Meta Tags -->
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/x-icon" href="H Logo PNG.PNG">
     
     <!-- Primary Meta Tags -->
-    <title>Heart | A Safe Space for Anonymous Expression</title>
-    <meta name="title" content="Heart | A Safe Space for Anonymous Expression">
-    <meta name="description" content="Heart provides a judgment-free platform where you can share your thoughts anonymously, connect with others, and feel understood. Join our supportive community today.">
-    <meta name="keywords" content="anonymous sharing, mental health support, community platform, safe space, emotional support, anonymous expression, online community, mental wellness">
-    <meta name="author" content="Heart.Intelliquinte">
+    <title>Heart - Anonymous Expression & Support Community</title>
+    <meta name="title" content="Heart - Anonymous Expression & Support Community">
+    <meta name="description" content="Heart provides a safe, anonymous space to express yourself and feel understood. Share your thoughts, connect with others, and find support in our caring community.">
+    <meta name="keywords" content="anonymous sharing, emotional support, mental health community, safe space, anonymous thoughts, personal expression, community support">
+    <meta name="author" content="Intelliquinte L.L.C.">
     <meta name="robots" content="index, follow">
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://heart.intelliquinte.com/">
-    <meta property="og:title" content="Heart | A Safe Space for Anonymous Expression">
-    <meta property="og:description" content="Share your thoughts anonymously, connect with others, and feel understood in our supportive community.">
+    <meta property="og:title" content="Heart - Anonymous Expression & Support Community">
+    <meta property="og:description" content="A safe space to express yourself anonymously and find understanding in our supportive community.">
     <meta property="og:image" content="https://heart.intelliquinte.com/Heart Logo PNG.PNG">
     <meta property="og:site_name" content="Heart">
     
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://heart.intelliquinte.com/">
-    <meta property="twitter:title" content="Heart | A Safe Space for Anonymous Expression">
-    <meta property="twitter:description" content="Share your thoughts anonymously, connect with others, and feel understood in our supportive community.">
+    <meta property="twitter:title" content="Heart - Anonymous Expression & Support Community">
+    <meta property="twitter:description" content="A safe space to express yourself anonymously and find understanding in our supportive community.">
     <meta property="twitter:image" content="https://heart.intelliquinte.com/Heart Logo PNG.PNG">
     
-    <!-- Favicon and App Icons -->
-    <link rel="icon" type="image/x-icon" href="H Logo PNG.PNG">
-    <link rel="apple-touch-icon" href="H Logo PNG.PNG">
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://heart.intelliquinte.com">
     
-    <!-- JSON-LD Schema Markup -->
+    <!-- Resource Hints -->
+    <link rel="preload" href="styles.css" as="style">
+    <link rel="preload" href="Intelliquinte Logo TM.PNG" as="image">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    
+    <!-- Schema.org markup -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
         "@type": "WebSite",
         "name": "Heart",
         "url": "https://heart.intelliquinte.com",
-        "description": "A safe space for anonymous expression and community support.",
-        "potentialAction": {
-            "@type": "ReadAction",
-            "target": {
-                "@type": "EntryPoint",
-                "urlTemplate": "https://heart.intelliquinte.com/thoughts"
-            }
-        },
+        "description": "A safe space for anonymous expression and community support",
         "publisher": {
             "@type": "Organization",
             "name": "Intelliquinte L.L.C.",
@@ -55,89 +53,79 @@
                 "@type": "ImageObject",
                 "url": "https://heart.intelliquinte.com/Intelliquinte Logo TM.PNG"
             }
+        },
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://heart.intelliquinte.com/thoughts?q={search_term_string}",
+            "query-input": "required name=search_term_string"
         }
     }
     </script>
     
-    <!-- Organization Schema -->
+    <!-- Additional Schema for Organization -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
         "@type": "Organization",
-        "name": "Heart.Intelliquinte",
+        "name": "Heart by Intelliquinte",
         "url": "https://heart.intelliquinte.com",
-        "logo": "https://heart.intelliquinte.com/Intelliquinte Logo TM.PNG",
-        "sameAs": [],
+        "logo": "https://heart.intelliquinte.com/Heart Logo PNG.PNG",
+        "sameAs": [
+            "mailto:support@intelliquinte.com"
+        ],
         "contactPoint": {
             "@type": "ContactPoint",
-            "email": "heart@intelliquinte.com",
+            "email": "support@intelliquinte.com",
             "contactType": "customer support"
         }
     }
     </script>
-
-    <!-- PWA Meta Tags -->
-    <meta name="application-name" content="Heart">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="Heart">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#ff0000">
-    
-    <!-- Preconnect to External Resources -->
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://heart.intelliquinte.com/">
-    
-    <!-- Security Headers -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; script-src 'self' 'unsafe-inline';">
-    <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
-    <meta http-equiv="Permissions-Policy" content="interest-cohort=()">
-    
-    <!-- Your existing stylesheets -->
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <nav class="navbar">
-        <div class="logo">
-            <img src="Intelliquinte Logo TM.PNG" alt="Logo" class="logo-img">
-        </div>
-        
-        <div class="center-image">
-            <img src="Heart Logo PNG.PNG" alt="Center Image" class="center-img">
-        </div>
+        <div class="nav-container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="Intelliquinte Logo TM.PNG" alt="Intelliquinte Logo" class="logo-img" loading="lazy">
+                </a>
+            </div>
+            
+            <div class="center-image">
+                <a href="index.html">
+                    <img src="Heart Logo PNG.PNG" alt="Heart Logo - Click to return home" class="center-img" loading="lazy">
+                </a>
+            </div>
 
-        <ul class="nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="submit.html">Form</a></li>
-            <li><a href="thoughts.html">Thoughts</a></li>
-            <li><a href="about.html">About</a></li>
-        </ul>
+            <div class="nav-menu">
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="submit.html">Form</a></li>
+                    <li><a href="thoughts.html">Thoughts</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+            </div>
+
+            <button class="hamburger" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
     </nav>
 
-    <section class="hero">
+    <section class="hero" aria-label="Welcome Section">
         <div class="hero-content">
-            <h1>Share Your Thoughts Anonymously</h1>
-            <p class="subheading">A safe space to express and feel understood</p>
-            <button class="btn btn-large">Submit A Thought</button>
+            <h1 itemprop="headline">Share Your Thoughts Anonymously</h1>
+            <p class="subheading" itemprop="alternativeHeadline">A safe space to express and feel understood</p>
+            <a href="submit.html" class="btn btn-large" role="button" aria-label="Submit a thought">Submit A Thought</a>
         </div>
     </section>
 <br>
     <!-- Add this after the hero section -->
-    <section class="about">
+    <section class="about" aria-label="About Heart" itemscope itemtype="https://schema.org/AboutPage">
         <div class="about-content">
-            <div class="about-icon">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="currentColor"/>
-                </svg>
-            </div>
-            <h2>Why <span style="color: var(--primary-red);">♥</span>heart?</h2>
-            <p>At <span style="color: var(--primary-red);">♥</span>heart, we believe everyone deserves a place to be heard without judgment. Share your thoughts, connect with others, and feel supported in your journey.</p>
+            <h2 itemprop="name">Why <span style="color: var(--primary-red);">♥</span>heart?</h2>
+            <p itemprop="description">At <span style="color: var(--primary-red);">♥</span>heart, we believe everyone deserves a place to be heard without judgment. Share your thoughts, connect with others, and feel supported in your journey.</p>
         </div>
     </section>
     <br>
@@ -236,8 +224,9 @@
                     <h4>Quick Links</h4>
                     <ul>
                         <li><a href="about.html">About Us</a></li>
-                        <li><a href="mailto:heart@intelliquinte.com">Contact</a></li>
-                        <li><a href="Community Guidelines.html">Community Guidelines</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="help.html">Help Center</a></li>
+                            <li><a href="Community Guidelines.html">Community Guidelines</a></li>
                     </ul>
                 </div>
                 
@@ -266,6 +255,8 @@
             </div>
         </div>
     </footer>
+
+    <script defer src="your-script.js"></script>
 
 </body>
 </html>
