@@ -37,6 +37,9 @@ class ThoughtsManager {
         window.addEventListener('hashchange', () => {
             this.checkHashForSharedThought();
         });
+        
+        // Initialize meta tags if needed
+        this.initializeMetaTags();
     }
 
     init() {
@@ -351,98 +354,77 @@ class ThoughtsManager {
         }
     }
 
-    resetMetaTags() {
-        document.title = "Browse Thoughts - Heart | Anonymous Expression Platform";
-        
-        const defaultMeta = {
-            'meta[name="description"]': "Explore anonymous thoughts shared by our community. A safe space for genuine expression and connection.",
-            'meta[property="og:title"]': "Browse Thoughts - Heart | Anonymous Expression Platform",
-            'meta[property="og:description"]': "Explore anonymous thoughts shared by our community. A safe space for genuine expression and connection.",
-            'meta[property="twitter:title"]': "Browse Thoughts - Heart | Anonymous Expression Platform",
-            'meta[property="twitter:description"]': "Explore anonymous thoughts shared by our community. A safe space for genuine expression and connection."
+    initializeMetaTags() {
+        const requiredMeta = {
+            'description': { type: 'name', content: 'Explore anonymous thoughts shared by our community' },
+            'og:title': { type: 'property', content: 'Browse Thoughts - Heart' },
+            'og:description': { type: 'property', content: 'Explore anonymous thoughts shared by our community' },
+            'og:url': { type: 'property', content: window.location.href },
+            'twitter:title': { type: 'property', content: 'Browse Thoughts - Heart' },
+            'twitter:description': { type: 'property', content: 'Explore anonymous thoughts shared by our community' },
+            'twitter:url': { type: 'property', content: window.location.href }
         };
 
-        for (const [selector, content] of Object.entries(defaultMeta)) {
-            const tag = document.querySelector(selector);
-            if (tag) {
-                tag.setAttribute('content', content);
+        Object.entries(requiredMeta).forEach(([name, meta]) => {
+            const selector = `meta[${meta.type}="${name}"]`;
+            if (!document.querySelector(selector)) {
+                const tag = document.createElement('meta');
+                tag.setAttribute(meta.type, name);
+                tag.setAttribute('content', meta.content);
+                document.head.appendChild(tag);
             }
-        }
+        });
 
-        const canonicalLink = document.querySelector('link[rel="canonical"]');
-        if (canonicalLink) {
-            canonicalLink.setAttribute('href', 'https://heart.intelliquinte.com/thoughts');
+        // Ensure canonical link exists
+        if (!document.querySelector('link[rel="canonical"]')) {
+            const canonical = document.createElement('link');
+            canonical.setAttribute('rel', 'canonical');
+            canonical.setAttribute('href', window.location.href);
+            document.head.appendChild(canonical);
         }
     }
 
     updateMetaTags(thought) {
-        // Update title
-        document.title = `${thought.content.slice(0, 50)}... - Heart`;
-        
-        // Helper function to safely update meta tags
-        const updateMetaTag = (selector, attribute, content) => {
-            let tag = document.querySelector(selector);
-            if (!tag) {
-                tag = document.createElement('meta');
-                tag.setAttribute(attribute.split('=')[0], attribute.split('=')[1]);
-                document.head.appendChild(tag);
-            }
-            tag.setAttribute('content', content);
-        };
+        try {
+            // Update title
+            document.title = thought ? `${thought.content.slice(0, 50)}... - Heart` : 'Browse Thoughts - Heart';
+            
+            const updates = {
+                'meta[name="description"]': thought ? 
+                    `"${thought.content.slice(0, 150)}..." - Shared on Heart` : 
+                    'Explore anonymous thoughts shared by our community',
+                'meta[property="og:title"]': 'Shared Thought - Heart',
+                'meta[property="og:description"]': thought ? thought.content : 'Explore anonymous thoughts shared by our community',
+                'meta[property="og:url"]': thought ? this.createThoughtUrl(thought) : window.location.href,
+                'meta[property="twitter:title"]': 'Shared Thought - Heart',
+                'meta[property="twitter:description"]': thought ? thought.content : 'Explore anonymous thoughts shared by our community',
+                'meta[property="twitter:url"]': thought ? this.createThoughtUrl(thought) : window.location.href
+            };
 
-        // Update all meta tags safely
-        updateMetaTag('meta[name="description"]', 'name=description', 
-            `"${thought.content.slice(0, 150)}..." - Shared on Heart`);
-        
-        updateMetaTag('meta[property="og:title"]', 'property=og:title',
-            'Shared Thought - Heart');
-        
-        updateMetaTag('meta[property="og:description"]', 'property=og:description',
-            thought.content);
-        
-        updateMetaTag('meta[property="og:url"]', 'property=og:url',
-            this.createThoughtUrl(thought));
-        
-        updateMetaTag('meta[property="twitter:title"]', 'property=twitter:title',
-            'Shared Thought - Heart');
-        
-        updateMetaTag('meta[property="twitter:description"]', 'property=twitter:description',
-            thought.content);
-        
-        updateMetaTag('meta[property="twitter:url"]', 'property=twitter:url',
-            this.createThoughtUrl(thought));
-        
-        // Update canonical URL
-        let canonicalLink = document.querySelector('link[rel="canonical"]');
-        if (!canonicalLink) {
-            canonicalLink = document.createElement('link');
-            canonicalLink.setAttribute('rel', 'canonical');
-            document.head.appendChild(canonicalLink);
-        }
-        canonicalLink.setAttribute('href', this.createThoughtUrl(thought));
-        
-        // Update JSON-LD
-        const thoughtSchema = {
-            "@context": "https://schema.org",
-            "@type": "SocialMediaPosting",
-            "headline": "Shared Thought on Heart",
-            "articleBody": thought.content,
-            "datePublished": thought.date,
-            "publisher": {
-                "@type": "Organization",
-                "name": "Heart.Intelliquinte",
-                "url": "https://heart.intelliquinte.com"
+            Object.entries(updates).forEach(([selector, content]) => {
+                const element = document.querySelector(selector);
+                if (element) {
+                    element.setAttribute('content', content);
+                }
+            });
+
+            // Update canonical
+            const canonical = document.querySelector('link[rel="canonical"]');
+            if (canonical) {
+                canonical.setAttribute('href', thought ? this.createThoughtUrl(thought) : window.location.href);
             }
-        };
-        
-        let scriptTag = document.querySelector('#thoughtSchema');
-        if (!scriptTag) {
-            scriptTag = document.createElement('script');
-            scriptTag.id = 'thoughtSchema';
-            scriptTag.type = 'application/ld+json';
-            document.head.appendChild(scriptTag);
+
+        } catch (error) {
+            console.error('Error updating meta tags:', error);
         }
-        scriptTag.textContent = JSON.stringify(thoughtSchema);
+    }
+
+    resetMetaTags() {
+        try {
+            this.updateMetaTags(null);
+        } catch (error) {
+            console.error('Error resetting meta tags:', error);
+        }
     }
 }
 
