@@ -28,8 +28,13 @@ class ThoughtsManager {
         
         this.init();
         
-        // Check URL for shared thought on load
-        this.checkUrlForSharedThought();
+        // Check hash for shared thought on load
+        this.checkHashForSharedThought();
+        
+        // Listen for hash changes
+        window.addEventListener('hashchange', () => {
+            this.checkHashForSharedThought();
+        });
     }
 
     init() {
@@ -198,26 +203,25 @@ class ThoughtsManager {
         if (closeBtn) {
             closeBtn.addEventListener('click', () => {
                 this.modal.style.display = 'none';
+                // Clear hash when closing modal
+                window.location.hash = '';
             });
         }
 
-        // Add keyboard navigation
-        this.modal.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                this.modal.style.display = 'none';
-            }
-        });
-
+        // Close modal when clicking outside
         window.addEventListener('click', (e) => {
             if (e.target === this.modal) {
                 this.modal.style.display = 'none';
+                window.location.hash = '';
             }
         });
 
-        // Handle browser back button
-        window.addEventListener('popstate', () => {
-            this.modal.style.display = 'none';
-            this.checkUrlForSharedThought();
+        // Handle escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && this.modal.style.display === 'block') {
+                this.modal.style.display = 'none';
+                window.location.hash = '';
+            }
         });
     }
 
@@ -250,7 +254,7 @@ class ThoughtsManager {
 
         // Add event listeners for share buttons
         const copyBtn = shareOptions.querySelector('.copy');
-        copyBtn.addEventListener('click', () => this.copyToClipboard(thoughtUrl));
+        copyBtn.addEventListener('click', () => this.copyToClipboard(thoughtUrl, thought));
 
         const emailBtn = shareOptions.querySelector('.email');
         emailBtn.addEventListener('click', () => this.shareViaEmail(thought, thoughtUrl));
@@ -264,39 +268,32 @@ class ThoughtsManager {
         
         this.modal.style.display = 'block';
         
-        // Update URL when opening modal directly
-        window.history.pushState({}, '', thoughtUrl.replace(window.location.origin, ''));
+        // Update hash when opening modal
+        window.location.hash = `thought-${thought.id}`;
     }
 
     createThoughtUrl(thought) {
-        // Create a URL-friendly slug from the thought content
-        const slug = thought.content
-            .slice(0, 50)
-            .toLowerCase()
-            .replace(/[^a-z0-9]+/g, '-')
-            .replace(/(^-|-$)/g, '');
-        
-        const url = `${window.location.origin}/thoughts/${thought.id}-${slug}`;
-        return url;
+        // Create URL with hash instead of path
+        return `${window.location.origin}${window.location.pathname}#thought-${thought.id}`;
     }
 
-    async copyToClipboard(text) {
+    async copyToClipboard(text, thought) {
         try {
             await navigator.clipboard.writeText(text);
-            // Update URL without refreshing the page
-            window.history.pushState({}, '', text.replace(window.location.origin, ''));
+            // Update hash
+            window.location.hash = `thought-${thought.id}`;
             this.showShareSuccess('Link copied to clipboard!');
         } catch (err) {
             console.error('Failed to copy:', err);
-            // Fallback for browsers that don't support clipboard API
+            // Fallback
             const textArea = document.createElement('textarea');
             textArea.value = text;
             document.body.appendChild(textArea);
             textArea.select();
             document.execCommand('copy');
             document.body.removeChild(textArea);
-            // Update URL without refreshing the page
-            window.history.pushState({}, '', text.replace(window.location.origin, ''));
+            // Update hash
+            window.location.hash = `thought-${thought.id}`;
             this.showShareSuccess('Link copied to clipboard!');
         }
     }
@@ -328,22 +325,19 @@ class ThoughtsManager {
         }, 3000);
     }
 
-    checkUrlForSharedThought() {
-        const path = window.location.pathname;
-        const matches = path.match(/\/thoughts\/(\d+)-/);
+    checkHashForSharedThought() {
+        const hash = window.location.hash;
+        const matches = hash.match(/#thought-(\d+)/);
         
         if (matches) {
             const thoughtId = parseInt(matches[1]);
             const thought = this.thoughts.find(t => t.id === thoughtId);
             
             if (thought) {
-                // Small delay to ensure everything is loaded
-                setTimeout(() => {
-                    this.openModal(thought);
-                    // Update browser history to prevent modal from showing again on refresh
-                    window.history.replaceState({}, '', '/thoughts');
-                }, 100);
+                this.openModal(thought);
             }
+        } else if (this.modal) {
+            this.modal.style.display = 'none';
         }
     }
 }
