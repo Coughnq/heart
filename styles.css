@@ -1666,3 +1666,73 @@ select {
         transform: rotate(-45deg) translate(7px, -7px);
     }
 }
+
+/* Add/update these styles */
+.nav-menu {
+    display: flex;
+    align-items: center;
+}
+
+@media screen and (max-width: 768px) {
+    .nav-menu {
+        display: none;
+        width: 100%;
+        background: white;
+        z-index: 1000;
+    }
+
+    .nav-menu.active {
+        display: block;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        padding: 1rem 0;
+    }
+
+    .nav-links li {
+        margin: 1rem 0;
+    }
+
+    /* Remove the dots between nav items in mobile view */
+    .nav-links li:not(:last-child)::after {
+        display: none;
+    }
+}
+
+.hamburger {
+    display: none;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0.5rem;
+}
+
+@media screen and (max-width: 768px) {
+    .hamburger {
+        display: block;
+    }
+
+    .hamburger span {
+        display: block;
+        width: 25px;
+        height: 3px;
+        margin: 5px 0;
+        background: var(--primary-red);
+        transition: all 0.3s ease;
+    }
+
+    .hamburger.active span:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .hamburger.active span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(5px, -5px);
+    }
+}
