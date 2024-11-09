@@ -331,24 +331,22 @@
                 this.classList.toggle('active');
                 navMenu.classList.toggle('active');
                 
-                // Add these styles when menu is active
-                if (isMenuOpen) {
+                // Add these styles when menu is active and on mobile
+                if (isMenuOpen && window.innerWidth <= 768) {
                     navMenu.style.display = 'block';
                     navMenu.style.position = 'absolute';
-                    navMenu.style.top = '60px'; // Adjust based on your navbar height
+                    navMenu.style.top = '60px';
                     navMenu.style.left = '0';
                     navMenu.style.right = '0';
                     navMenu.style.backgroundColor = 'white';
                     navMenu.style.padding = '1rem';
                     navMenu.style.boxShadow = '0 2px 5px rgba(0,0,0,0.1)';
-                } else {
-                    navMenu.style.display = 'none';
                 }
             });
 
-            // Close menu when clicking outside
+            // Close menu when clicking outside - only on mobile
             document.addEventListener('click', function(e) {
-                if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+                if (window.innerWidth <= 768 && !navMenu.contains(e.target) && !hamburger.contains(e.target)) {
                     isMenuOpen = false;
                     hamburger.classList.remove('active');
                     navMenu.classList.remove('active');
@@ -356,14 +354,30 @@
                 }
             });
 
-            // Close menu when clicking a link
+            // Close menu when clicking a link - only on mobile
             navMenu.querySelectorAll('a').forEach(link => {
                 link.addEventListener('click', () => {
-                    isMenuOpen = false;
-                    hamburger.classList.remove('active');
-                    navMenu.classList.remove('active');
-                    navMenu.style.display = 'none';
+                    if (window.innerWidth <= 768) {
+                        isMenuOpen = false;
+                        hamburger.classList.remove('active');
+                        navMenu.classList.remove('active');
+                        navMenu.style.display = 'none';
+                    }
                 });
+            });
+
+            // Reset styles on window resize
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 768) {
+                    navMenu.style.display = 'flex';
+                    navMenu.style.position = 'static';
+                    navMenu.style.top = 'auto';
+                    navMenu.style.backgroundColor = 'transparent';
+                    navMenu.style.padding = '0';
+                    navMenu.style.boxShadow = 'none';
+                } else if (!isMenuOpen) {
+                    navMenu.style.display = 'none';
+                }
             });
         }
     });
